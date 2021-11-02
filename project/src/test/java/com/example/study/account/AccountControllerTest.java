@@ -1,5 +1,6 @@
 package com.example.study.account;
 
+import com.example.study.domain.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.validation.constraints.AssertTrue;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -64,7 +65,9 @@ public class AccountControllerTest {
             .andExpect(status().is3xxRedirection())
             .andExpect(view().name("redirect:/"));
 
-        assertTrue(accountRepository.existsByEmail("dongyeon94@naver.com"));
+        Account account = accountRepository.findByEmail("dongyeon94@naver.com");
+        assertNotNull(account);
+        assertNotEquals(account.getPassword(), "1234aAbBcC12!@");
         then(javaMailSender).should().send(any(SimpleMailMessage.class));
     }
 }
