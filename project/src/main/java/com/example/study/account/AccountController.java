@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
@@ -44,6 +45,7 @@ public class AccountController {
         return "redirect:/";
     }
 
+    @Transactional
     @GetMapping("/check-email-token")
     public String checkEmailToken(String token, String email, Model model) {
         String view = "account/checked-email";
